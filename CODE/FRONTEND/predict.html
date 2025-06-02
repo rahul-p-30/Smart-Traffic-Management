@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="/static/images/fevicon.png" type="">
+
+  <title> Carint </title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="header_top">
+        <div class="container-fluid ">
+          <div class="contact_nav">
+            <a href="">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span>
+                Call : +01 123455678990
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <span>
+                Email : demo@gmail.com
+              </span>
+            </a>
+            <a href="">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span>
+                Location
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header_bottom">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="index.html">
+              <span>
+                Carint
+              </span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{ url_for('home') }}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('predict') }}"> Predict </a>
+                </li>
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('index')}}"> Logout</a>
+                </li>
+              
+                <form class="form-inline">
+                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Traffic Prediction Page</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <style>
+        #prediction-results {
+            margin-top: 20px;
+        }
+    </style>
+</head> -->
+<head>
+  <title>Traffic Prediction Page</title>
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <style>
+      #prediction-results {
+          margin-top: 20px;
+      }
+      #map-container {
+          display: none;
+          width: 100px;
+          height: 100px;
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          z-index: 1000;
+          border: 1px solid #ccc;
+          background-color: white;
+      }
+      #map {
+          width: 100%;
+          height: 100%;
+      }
+      #expand-map {
+          display: none;
+      }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+      <h1>Traffic Prediction Page</h1>
+
+      <form id="prediction-form" action="{{ url_for('predict') }}" method="post">
+          <div class="form-group">
+              <label for="model-type">Select Model:</label>
+              <select id="model-type" name="model_type" class="form-control" required>
+                  <option value="vehicle_traffic_forecasting">Vehicle Traffic Forecasting</option>
+                  <option value="traffic_prediction">Traffic Prediction</option>
+              </select>
+          </div>
+
+          <div class="form-group" id="time-day-of-week">
+              <label for="time">Time (HH:MM:SS AM/PM):</label>
+              <input type="text" id="time" name="time" class="form-control" required>
+              <label for="day_of_week">Day of the Week:</label>
+              <select id="day_of_week" name="day_of_week" class="form-control" required>
+                  <option value="0">Friday</option>
+                  <option value="1">Monday</option>
+                  <option value="2">Saturday</option>
+                  <option value="3">Sunday</option>
+                  <option value="4">Thursday</option>
+                  <option value="5">Tuesday</option>
+                  <option value="6">Wednesday</option>
+              </select>
+          </div>
+
+          <div class="form-group" id="traffic-inputs">
+              <label for="car_count">Car Count:</label>
+              <input type="number" id="car_count" name="car_count" class="form-control" required>
+              <label for="bike_count">Bike Count:</label>
+              <input type="number" id="bike_count" name="bike_count" class="form-control" required>
+              <label for="bus_count">Bus Count:</label>
+              <input type="number" id="bus_count" name="bus_count" class="form-control" required>
+              <label for="truck_count">Truck Count:</label>
+              <input type="number" id="truck_count" name="truck_count" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      {% if prediction %}
+          <div id="prediction-results">
+              <h3>Prediction Results:</h3>
+              <p>Model: {{ prediction.model }}</p>
+              <p>Class: {{ prediction.class_name }}</p>
+              <p>Probabilities: {{ prediction.probabilities }}</p>
+              <button id="view-map" class="btn btn-secondary">View the Map</button>
+              <div id="map-container">
+                  <div id="map"></div>
+              </div>
+          </div>
+      {% endif %}
+  </div>
+
+  <script src="/static/js/jquery-3.4.1.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script>
+      $(document).ready(function() {
+          $('#model-type').change(function() {
+              var modelType = $(this).val();
+              if (modelType === 'vehicle_traffic_forecasting') {
+                  $('#traffic-inputs').hide();
+                  $('#time-day-of-week').show();
+              } else if (modelType === 'traffic_prediction') {
+                  $('#time-day-of-week').hide();
+                  $('#traffic-inputs').show();
+              }
+          }).change(); // Trigger change event to set initial state
+
+          $('#view-map').click(function() {
+              $('#map-container').show();  // Show the small map
+              initializeMap(); // Initialize the map if not already initialized
+              $('#map-container').animate({
+                  width: '100%',
+                  height: '100vh'
+              }, 1000); // Expand map to full screen over 1 second
+          });
+
+          function initializeMap() {
+              if ($('#map').children().length === 0) {
+                  var map = L.map('map').setView([18.7, 73.9], 12);
+
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      maxZoom: 18,
+                      attribution: 'Map data © OpenStreetMap contributors'
+                  }).addTo(map);
+
+                  var currentMarker = null;
+
+                  function updateMarker(lat, lon, condition) {
+                      if (currentMarker) {
+                          map.removeLayer(currentMarker);
+                      }
+                      currentMarker = L.marker([lat, lon]).addTo(map)
+                          .bindPopup(`Traffic Condition: ${condition}`)
+                          .openPopup();
+                  }
+
+                  map.on('click', function(e) {
+                      var lat = e.latlng.lat;
+                      var lon = e.latlng.lng;
+                      fetch(`/get_traffic/${lat}/${lon}`)
+                          .then(response => response.json())
+                          .then(data => {
+                              updateMarker(lat, lon, data.traffic_condition);
+                          });
+                  });
+              }
+          }
+      });
+  </script>
+</body>
+
+
+
+  <!-- jQery -->
+  <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+  <!-- owl slider -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- custom js -->
+  <script type="text/javascript" src="/static/js/custom.js"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+
+</body>
+
+</html>
